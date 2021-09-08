@@ -203,14 +203,13 @@ function loadWidget(config) {
 		const response = await fetch(`${cdnPath}model_list.json`);
 		modelList = await response.json();
 	}
-
-	async function loadModel(modelId, modelTexturesId, message) {
+async function loadModel(modelId, modelTexturesId, message) {
 		localStorage.setItem("modelId", modelId);
 		localStorage.setItem("modelTexturesId", modelTexturesId);
 		showMessage(message, 4000, 10);
 		if (useCDN) {
 			if (!modelList) await loadModelList();
-			const target = randomSelection(modelList.models[modelId]);
+			let target = randomSelection(modelList.models[modelId]);
 			loadlive2d("live2d", `${cdnPath}model/${target}/index.json`);
 		} else {
 			loadlive2d("live2d", `${apiPath}get/?id=${modelId}-${modelTexturesId}`);
